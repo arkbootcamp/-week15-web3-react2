@@ -1,16 +1,23 @@
-import React, { useState } from 'react'
-// import Count from './Components/Count/Count'
-// import CountFun from './Components/Count/CountFun'
-// import style from './Components/PrintOut/print.module.css'
-import Home from './Page/Home'
+import React from "react";
+import Button from "./components/base/Button";
+import style from "./components/base/Button/button.module.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Home from "./pages/Home";
+import Page404 from "./pages/Page404";
 
 const App = () => {
-  const [show, setShow] = useState(true)
   return (
-    <div>
-     <Home/>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<SignUp />} />
+        <Route path="/*" element={<Page404/>}/>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;
