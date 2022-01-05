@@ -12,6 +12,7 @@ const Login = () => {
   const [loading , setLoading]= useState(false)
   const [errorMsg , setErrorMsg]= useState("")
   const navigate = useNavigate()
+  
 
   // const handleChangeEmail = (e)=>{
   //     setForm({
@@ -40,9 +41,13 @@ const Login = () => {
         password: form.password
     })
     .then((res)=>{
+        
         setLoading(false)
-        alert('success')
+        const result = res.data.data
+        console.log(result);
+        // alert(`anda berhasil login selamat datang ${result.name}`)
         localStorage.setItem('auth', "1")
+        localStorage.setItem('user', JSON.stringify(result))
         navigate('/')
     })
     .catch((err)=>{
@@ -73,11 +78,11 @@ const Login = () => {
         value={form.password}
         label="Password"
         type="password"
-        placeholder="silahkan isi email"
+        placeholder="silahkan isi password"
       />
 
-      <Button onClick={handleClick} className="btn btn-primary">
-        {loading ? 'loading...': 'Login'}
+      <Button isLoading={loading} onClick={handleClick} className="btn btn-primary">
+       Login
       </Button>
       {errorMsg && <h1 className="text-danger">{errorMsg}</h1>}
       
