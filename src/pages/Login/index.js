@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import Input from "../../components/base/Input";
 import Button from "../../components/base/Button";
+// import bgLogin from '../../assets/img/png-phone.svg'
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -63,6 +64,7 @@ const Login = () => {
   return (
     <div className="container">
       <h1 className="text-center">halaman login</h1>
+      <img src={require('../../assets/img/png-phone.svg')} alt="" />
       <Input
         onChange={handleChange}
         name="email"

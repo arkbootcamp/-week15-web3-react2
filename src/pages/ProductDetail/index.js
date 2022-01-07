@@ -22,7 +22,6 @@ const ProductDetail = () => {
             setProduct(result)
         })
         .catch((err)=>{
-            console.log(err.response);
         })
     }, [])
     console.log(location);
