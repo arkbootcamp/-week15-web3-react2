@@ -1,6 +1,4 @@
 import React from "react";
-import Button from "./components/base/Button";
-import style from "./components/base/Button/button.module.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -18,7 +16,7 @@ const App = () => {
         <Home/>
         </RequireAuth>
         }/>
-        <Route path="login" element={<Login />} />
+        <Route path="login" element={<Login />} /> 
         <Route path="register" element={<SignUp />} />
         <Route path="/product/:id" element={
          <RequireAuth >
