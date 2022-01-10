@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import Input from "../../components/base/Input";
 import Button from "../../components/base/Button";
 // import bgLogin from '../../assets/img/png-phone.svg'
+import {userContext} from '../../context/UserContext'
 
 const Login = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  const {user, setUser} = useContext(userContext)
   const [loading , setLoading]= useState(false)
   const [errorMsg , setErrorMsg]= useState("")
   const navigate = useNavigate()
@@ -49,6 +51,7 @@ const Login = () => {
         // alert(`anda berhasil login selamat datang ${result.name}`)
         localStorage.setItem('auth', "1")
         localStorage.setItem('user', JSON.stringify(result))
+        setUser(result)
         navigate('/')
     })
     .catch((err)=>{
