@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import Card from "../../components/module/Card";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "../../components/base/Navbar";
+import {axiosInstance} from '../apis/axios'
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -14,9 +15,9 @@ const Home = () => {
 
   useEffect(() => {
     if (querySearch) {
-      axios
+      axiosInstance
         .get(
-          `https://zwallet-hello.herokuapp.com/products?name=${querySearch}&limit=6`,
+          `/products?name=${querySearch}&limit=6`,
           { headers: { auth: 1 } }
         )
         .then((res) => {
@@ -30,8 +31,8 @@ const Home = () => {
         });
     } else {
       setIsloading(true);
-      axios
-        .get("https://zwallet-hello.herokuapp.com/products?limit=6&page=2")
+      axiosInstance
+        .patch('/products?limit=6&page=2')
         .then((res) => {
           setIsloading(false);
           const result = res.data.data;

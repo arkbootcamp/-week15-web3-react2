@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Button from "../../components/base/Button";
 import Input from "../../components/base/Input";
-import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
+import { axiosInstance } from "../apis/axios";
+import * as apis from "../apis/auth";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -23,24 +24,30 @@ const SignUp = () => {
   const handleSubmit = (e)=>{
     e.preventDefault()
     setLoading(true)
-    axios.post('https://zwallet-hello.herokuapp.com/users/register',{
-        email: form.email,
-        password: form.password,
-        name: form.name
-    })
+    // axiosInstance.post('/users/register',{
+    //     email: form.email,
+    //     password: form.password,
+    //     name: form.name
+    // })
+    apis.register({
+          email: form.email,
+          password: form.password,
+          name: form.name
+      })
     .then((res)=>{
         alert('register success')
         setLoading(false)
         navigate('/login')
     })
     .catch((err)=>{
-        alert('resgister failed')
-        setLoading(false)
-        if(err.response.status === 403){
-            setErrorMsg(err.response.data.message)
-        }else{
-            setErrorMsg("server lagi bermasalah")
-        }
+      console.log(err.response);
+        // alert('resgister failed')
+        // setLoading(false)
+        // if(err.response.status === 403){
+        //     setErrorMsg(err.response.data.message)
+        // }else{
+        //     setErrorMsg("server lagi bermasalah")
+        // }
        
     })
 

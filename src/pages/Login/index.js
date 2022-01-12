@@ -36,15 +36,63 @@ const Login = () => {
     });
   };
 
-  const handleClick = () => {
+  const handleClickUseFetch = ()=>{
     setLoading(true)
-    axios.post('https://zwallet-hello.herokuapp.com/users/login',
-    {
+    fetch(`${process.env.REACT_APP_URL_BACKEND}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
         email: form.email, 
         password: form.password
+      }) 
     })
+    // .then(response => {
+    //   return response.json()
+    //   // response.json().then((data)=> console.log(data))
+    // })
+    // .then(data => console.log(data));
+    .then((response)=>{
+      // console.log('response dari then', response);
+      if(response.ok){
+        return response.json()
+      }
+      // throw response
+      return Promise.reject(response)
+    })
+    .then((data)=>{
+      const result = data.data
+      localStorage.setItem('auth', "1")
+      localStorage.setItem('user', JSON.stringify(result))
+      setUser(result)
+      navigate('/')
+    })
+    .catch((error)=> {
+      console.log('response dari catch' , error)
+      error.json()
+      .then((data)=> console.log(data))
+    })
+    setLoading(false)
+  }
+  const handleClickUseAxios = () => {
+    setLoading(true)
+    axios({
+      baseURL: `${process.env.REACT_APP_URL_BACKEND}`,
+      data: {
+        email: form.email, 
+        password: form.password
+      },
+      method: 'POST',
+      url: '/users/loginzz'
+    })
+    // axios.post(`${process.env.REACT_APP_URL_BACKEND}/users/login`,
+    // {
+    //     email: form.email, 
+    //     password: form.password
+    // })
     .then((res)=>{
-        
+        console.log('response success', res);
         setLoading(false)
         const result = res.data.data
         console.log(result);
@@ -55,6 +103,7 @@ const Login = () => {
         navigate('/')
     })
     .catch((err)=>{
+      console.log('ada error', err);
         setLoading(false)
         console.log(err.response);
         if(err.response.status === 403){
@@ -86,7 +135,7 @@ const Login = () => {
         placeholder="silahkan isi password"
       />
 
-      <Button isLoading={loading} onClick={handleClick} className="btn btn-primary">
+      <Button isLoading={loading} onClick={handleClickUseFetch} className="btn btn-primary">
        Login
       </Button>
       {errorMsg && <h1 className="text-danger">{errorMsg}</h1>}
